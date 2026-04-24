@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Gift | Find Love in Every Gift</title>
+    <!-- Google Font Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Sleek & Even Lighter Design Tokens */
+        :root {
+            --primary: #FF99C2; /* Lighter, soft cloud pink */
+            --primary-soft: #FFDEE9;
+            --secondary: #FFF0F5;
+            --bg-page: #FFFDFF; /* Almost pure white with pearl tint */
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-main: #5C5C5C; /* Medium-soft charcoal */
+            --text-muted: #9A9A9A;
+            --glass-border: rgba(255, 255, 255, 1);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --shadow-soft: 0 10px 40px rgba(255, 153, 194, 0.05);
+            --shadow-hover: 0 20px 60px rgba(255, 153, 194, 0.12);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-page);
+            background: linear-gradient(135deg, #FFF9FC 0%, #FFF0F5 100%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated Background Elements */
+        .blob {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(40px);
+            pointer-events: none;
+            animation: float-slow 20s infinite ease-in-out;
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(100px, 50px); }
+            66% { transform: translate(-50px, 100px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Logo */
+        header {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .stats-pill {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid var(--secondary);
+            color: var(--primary);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 100px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 24px;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* Gift Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 100px;
+        }
+
+        .gift-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .icon-box {
+            font-size: 44px;
+            width: 80px;
+            height: 80px;
+            background: #FFFFFF;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(255, 112, 166, 0.1);
+            transition: var(--transition);
+        }
+
+        .gift-card:hover .icon-box {
+            transform: rotate(-5deg) scale(1.1);
+        }
+
+        .gift-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .gift-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .bought-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        /* Buttons */
+        .btn-action {
+            background: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 14px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 15px rgba(255, 112, 166, 0.25);
+            width: 100%;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            background: #ff5c95;
+            box-shadow: 0 10px 25px rgba(255, 112, 166, 0.35);
+        }
+
+        .btn-action:active {
+            transform: scale(0.96);
+        }
+
+        /* Summary Dashboard */
+        .dashboard {
+            background: white;
+            border-radius: 40px;
+            padding: 60px 40px;
+            margin-bottom: 80px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 112, 166, 0.05);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        /* Toast Message */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translate(-50%, 100px);
+            background: #2D2D2D;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        .toast-sparkle { color: #FFD700; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wave-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: -2;
+            opacity: 0.4;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.2rem; }
+            .header { padding: 30px 0; }
+            .gallery { grid-template-columns: 1fr; }
+            .dashboard { padding: 40px 20px; }
+            .logo { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Decoration -->
+    <div class="blob" style="top: -100px; right: -100px;"></div>
+    <div class="blob" style="bottom: -200px; left: -200px; background: radial-gradient(circle, rgba(255, 112, 166, 0.15) 0%, transparent 70%);"></div>
+    
+    <svg class="wave-svg" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,128L48,154.7C96,181,192,235,288,240C384,245,480,203,576,170.7C672,139,768,117,864,128C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" fill="#FFB6C1" fill-opacity="0.2"></path>
+    </svg>
+
+    <div class="container">
+        <header>
+            <div class="logo">Perfect Gift.</div>
+            <div id="stats-pill" class="stats-pill">Total Tracked: 0</div>
+        </header>
+
+        <section class="hero">
+            <h1>Find Love in Every Gift.</h1>
+            <p>Curated adorable treasures to celebrate the moments that matter most. Track your favorites effortlessly.</p>
+        </section>
+
+        <section id="gift-gallery" class="gallery">
+            <!-- Dynamically Rendered -->
+        </section>
+
+        <section class="dashboard">
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <h4>Most Loved Gift</h4>
+                    <div id="top-gift-val" class="stat-value">💝</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Weekly Happiness</h4>
+                    <div id="stats-pill-inner" class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Daily Spark</h4>
+                    <div id="daily-happy" class="stat-value">✨</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 60px; border-top: 1px solid #EEE; padding-top: 40px;">
+                <h4 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); text-align: center; margin-bottom: 24px;">Recent Activity Overview</h4>
+                <div id="activity-feed" style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto;">
+                    <!-- Activity items -->
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Built with 💖 for Wagner College. Powered by Perfect Gift App &copy; 2024
+        </footer>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast" class="toast">
+        <span class="toast-sparkle">✨</span>
+        <span id="toast-text">Gift tracked successfully!</span>
+    </div>
+
+    <script>
+        // --- App State & Data ---
+        const ITEMS = [
+            { id: 't1', name: 'Blush Bear', icon: '🧸', desc: 'A soft, hand-stitched companion in a sweet rose petal hue.' },
+            { id: 't2', name: 'Matcha Set', icon: '🍵', desc: 'Handcrafted ceramic bowl and bamboo whisk for peaceful zen mornings.' },
+            { id: 't3', name: 'Peach Candle', icon: '🍑', desc: 'Hand-poured soy wax with a dreamy summer peach and jasmine scent.' },
+            { id: 't4', name: 'Cat Mug', icon: '🐱', desc: 'A minimalist porcelain companion for your cozy tea or coffee breaks.' },
+            { id: 't5', name: 'Silk Bows', icon: '🎀', desc: 'Luxury mulberry silk hair accessories in soft pastel blushes.' },
+            { id: 't6', name: 'Gold Locket', icon: '💖', desc: 'A slim 14k gold-plated locket for your most cherished memory.' },
+            { id: 't7', name: 'Cloud Socks', icon: '☁️', desc: 'Extra thick marshmallow-soft knit for ultimate lounging comfort.' },
+            { id: 't8', name: 'Fairy Journal', icon: '📖', desc: 'Linen-bound ivory pages for your daily thoughts and secret dreams.' }
+        ];
+
+        const Store = {
+            counts: JSON.parse(localStorage.getItem('pg_counts') || '{}'),
+            history: JSON.parse(localStorage.getItem('pg_history') || '[]'),
+            
+            get(id) { return this.counts[id] || 0; },
+            
+            inc(id) {
+                this.counts[id] = (this.counts[id] || 0) + 1;
+                const item = ITEMS.find(i => i.id === id);
+                this.history.unshift({ name: item.name, icon: item.icon, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+                if (this.history.length > 5) this.history.pop();
+                
+                localStorage.setItem('pg_counts', JSON.stringify(this.counts));
+                localStorage.setItem('pg_history', JSON.stringify(this.history));
+                this.refresh();
+            },
+
+            getTotal() {
+                return Object.values(this.counts).reduce((a, b) => a + b, 0);
+            },
+
+            getTopIcon() {
+                let max = -1;
+                let icon = '🎁';
+                for (let id in this.counts) {
+                    if (this.counts[id] > max) {
+                        max = this.counts[id];
+                        icon = ITEMS.find(item => item.id === id)?.icon || '🎁';
+                    }
+                }
+                return icon;
+            },
+
+            refresh() {
+                renderGallery();
+                document.getElementById('stats-pill').innerText = `Total Tracked: ${this.getTotal()}`;
+                document.getElementById('stats-pill-inner').innerText = this.getTotal();
+                document.getElementById('top-gift-val').innerText = this.getTopIcon();
+                
+                // Update activity feed
+                const feed = document.getElementById('activity-feed');
+                if (this.history.length === 0) {
+                    feed.innerHTML = '<p style="text-align: center; color: #AAA; font-size: 0.9rem;">No recent gifts tracked yet.</p>';
+                } else {
+                    feed.innerHTML = this.history.map(entry => `
+                        <div style="background: #F8F8F8; padding: 12px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem;">
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.2rem;">${entry.icon}</span>
+                                <span style="font-weight: 600;">${entry.name}</span>
+                            </span>
+                            <span style="color: #BBB; font-size: 0.8rem;">${entry.time}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+        };
+
+        // --- UI Rendering ---
+        function renderGallery() {
+            const gallery = document.getElementById('gift-gallery');
+            gallery.innerHTML = ITEMS.map(item => `
+                <div class="gift-card" id="card-${item.id}">
+                    <div class="icon-box">${item.icon}</div>
+                    <div class="bought-label">Bought by ${Store.get(item.id)} people</div>
+                    <h3>${item.name}</h3>
+                    <p>${item.desc}</p>
+                    <button class="btn-action" onclick="handleTrack('${item.id}')">Mark as Bought</button>
+                </div>
+            `).join('');
+        }
+
+        // --- Interaction Logic ---
+        function handleTrack(id) {
+            Store.inc(id);
+            animateTap(id);
+            showToast('Gift tracked successfully! ✨');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function animateTap(id) {
+            const card = document.getElementById(`card-${id}`);
+            // Confetti burst logic
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 24; i++) {
+                const conf = document.createElement('div');
+                conf.style.cssText = `
+                    position: fixed;
+                    width: 8px;
+                    height: 8px;
+                    background: ${['#FF70A6', '#FFB6C1', '#FFD1E3', '#FFFFFF'][Math.floor(Math.random() * 4)]};
+                    top: ${centerY}px;
+                    left: ${centerX}px;
+                    z-index: 9999;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '3px'};
+                    pointer-events: none;
+                `;
+                document.body.appendChild(conf);
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                conf.animate([
+                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 500,
+                    easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                }).onfinish = () => conf.remove();
+            }
+        }
+
+        // --- Initialize ---
+        window.onload = () => Store.refresh();
+    </script>
+</body>
+</html>
